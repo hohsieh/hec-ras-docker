@@ -8,7 +8,7 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 
 - there is no muncie directory. provide your own test. 
 - auto-scaling works, mostly. look below to know how to override.
-- check the run.project.example.sh file for information on what your project runscript should look like.
+- check the example.project.run.sh file for information on what your project runscript should look like.
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
 
 -----
@@ -77,9 +77,9 @@ $(your-image-id)
 
 ```
 
-If you want to mount s3 buckets for your data, add the relevant lines to your projects `run.sh` script. You can see an example of the configuration you will need in the included `run.project.example.sh` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+If you want to mount s3 buckets for your data, add the relevant lines to your projects `run.sh` script. You can see an example of the configuration you will need in the included `example.project.run.sh` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
 
-run.project.example.sh:
+example.project.run.sh:
 
 ```
 ...

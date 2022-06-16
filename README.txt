@@ -7,9 +7,27 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 ## Notes:
 
 - there is no muncie directory. provide your own test. 
-- auto-scaling works, mostly. look below to know how to override.
+- auto-scaling for threading and memory works, mostly. look below to know how to override.
 - check the example.project.run.sh file for information on what your project runscript should look like.
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
+
+-----
+
+## TL;DR: Quickstart
+
+build the container:
+
+```
+docker build .
+```
+
+load your project files and your runscript into some directory. decide where your results need to live. 
+
+run the container:
+
+```
+docker run -it --name hec-ras -v /your/project/data/dir:/project -v /your/results/dir:/results <containerid>
+```
 
 -----
 
@@ -19,16 +37,15 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 
 /hecras/run.sh : This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
 
-/hecras/project : default project directory, this is where the provided files live. Needs to include a ru
-n.sh script to do the actual execution of the required function.
+/hecras/project : Houses the user provided project files which are used in the run. This is also the default executiion directory, any `*.sh` files which live in this directory will be executed. 
 
-/hecras/project/run.sh : This is the user-provided run script. It just needs to execute the binary against the required files, and decide what to do with the results. YOU CAN OVERRIDE THREADING AND MEMORY VARS by setting them in this file, as it is executed last. 
+/hecras/project/run.sh : This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script handles any threading overrides, allows user to configure s3 bucket mounts, and then executes the actual project run. Note that this file can be named anything, as long as it ends with `.sh`. 
 
 -----
 
 ## Required Vars:
 
-Pre-set environment vars that are REQUIRED for this container. Do not change these unless you know what you are doing:
+These variables are pre-set within the container environment and are REQUIRED for this specific setup. Do not change these unless you know what you are doing:
 
 ```
 ENV RAS_LIB_PATH=/hecras/libs:/hecras/libs/mkl:/hecras/libs/rhel_8
@@ -96,8 +113,8 @@ example.project.run.sh:
 #chmod 600 /root/.passwd-s3fs
 
 ## mounting the s3 bucket to above locations
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 ...
 
@@ -121,7 +138,7 @@ docker build -t hec-ras .
 You can then run the container with `docker run`. Note that if you are pulling the container from a repository directly, you will need to include that information at the end, rather than the build name we used above. 
 
 ```
-docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/data:/results hec-ras-project
+docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/data:/results hec-ras
 ```
 
 The container will run until the provided project runscript has completed. If you want to have your container run without seeing the output, you can replace the `-it` portion of your `docker run` command with `-d`. 

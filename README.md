@@ -41,7 +41,9 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 
 ## Optional Vars:
 
-Set the below vars at the top of /hecras/project/run.sh to override the default values before execution:
+
+#### Limiting/Unlimiting CPU threads
+Set the below vars at the top of /hecras/project/run.sh to override the dynamic threading behavior before execution:
 
 ```
 ## this should be an integer of some kind. 
@@ -75,7 +77,32 @@ $(your-image-id)
 
 ```
 
-If you want to mount s3 buckets for your data, uncomment the relevant lines in `Dockerfile`, `run.sh`, and relevant lines from the `run.project.example.sh` file should be configured in your project `run.sh` script. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+If you want to mount s3 buckets for your data, add the relevant lines to your projects `run.sh` script. You can see an example of the configuration you will need in the included `run.project.example.sh` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+
+run.project.example.sh:
+
+```
+...
+
+## Uncomment and set the below vars if you are moving data to/from an s3 bucket
+#export AWS_ACCESS_KEY=YOURAWSACCESSKEY
+#export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
+#export S3_MOUNT_RESULT=/results
+#export S3_MOUNT_PROJECT=/project
+#export S3_BUCKET_NAME=your-s3-bucket-name
+
+## setting aws access credentials
+#echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
+#chmod 600 /root/.passwd-s3fs
+
+## mounting the s3 bucket to above locations
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT
+#$S3_BUCKET_NAME $S3_MOUNT_RESULT
+
+...
+
+```
+
 
 -----
 

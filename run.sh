@@ -51,13 +51,6 @@ export OMP_THREAD_LIMIT=$threads
 export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 
-## Mount the s3 bucket
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT
-
-## Copy project data into container
-# rsync -av /project/* /hecras/project/
-
 ## run the provided run script
 cd /hecras/project && ./*.sh
 

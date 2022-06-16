@@ -23,6 +23,7 @@ WORKDIR /root/
 ## Install packages, uncompress the software, place it in the correct location, cleanup unneeded files. 
 RUN yum install -y epel-release && \
 	yum install -y unzip rsync bc vim nano automake python39 python39-pip s3fs-fuse && \
+	pip3 install --upgrade pip && pip3 --no-cache-dir install --upgrade awscli && \
 	unzip /tmp/HEC-RAS_610_Linux.zip && \
 	unzip HEC-RAS_610_Linux/RAS_Linux_test_setup.zip && \
 	unzip HEC-RAS_610_Linux/remove_HDF5_Results.zip && \
@@ -34,26 +35,6 @@ RUN yum install -y epel-release && \
 	chmod +x /hecras/Ras_v61/Release/* ; \
 	mkdir /results ; \
 	rm -rf /hecras/Muncie
-
-## S3 storage configuration:
-
-## Install AWS CLI
-#RUN pip3 install --upgrade pip && pip3 --no-cache-dir install --upgrade awscli
-
-## AWS CREDS
-#ENV AWS_ACCESS_KEY=YOURAWSACCESSKEY
-#ENV AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
-
-## Bucket directory
-#ENV S3_MOUNT_RESULT=/results
-#ENV S3_MOUNT_PROJECT=/project
-#ENV S3_BUCKET_NAME=your-s3-bucket-name
-
-## S3fs-fuse credential config
-#RUN echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs && \
-#    chmod 600 /root/.passwd-s3fs
-
-
 
 ## Where the shell scripts are. Execution happens here. 
 WORKDIR /hecras/

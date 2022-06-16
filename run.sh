@@ -1,9 +1,10 @@
 #! /bin/bash
 
+## Consider overriding the thread and memory values in the project runscript rather than here, unless you have other hard requirements to consider
 
-## If you need to hard set the number of threads, do that here. 
+## If you need to hard set the number of threads before the project script is executed, do that here. 
 threads=""
-## If you need to hard set the amount of memory, you can do that here. requires KB value
+## If you need to hard set the amount of memory before the project script is executed, you can do that here. requires KB value
 memory=""
 
 if [[ "$threads" != "" ]]

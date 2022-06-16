@@ -27,7 +27,7 @@
 
 ## mounting the s3 bucket to above locations
 #s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT
-#$S3_BUCKET_NAME $S3_MOUNT_RESULT
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT
 
 
 ## REQUIRED: move your project data into the correct location within the container

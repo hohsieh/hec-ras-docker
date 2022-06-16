@@ -16,5 +16,5 @@
 
 
 time RasUnsteady WhiskyChitto.c02 b08
-mv WhiskyChitto.p08.tmp.hdf /results/WhiskyChitto.p08.hdf
+mv Project.p08.tmp.hdf /results/Project.p08.hdf
 echo "Finished"

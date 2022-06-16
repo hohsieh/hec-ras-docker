@@ -13,6 +13,30 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 
 -----
 
+## TL;DR: Quickstart
+
+build the container:
+
+```
+docker build .
+```
+
+load your project files and your runscript into some directory. decide where your results need to live. 
+
+```
+mkdir ~/project
+mkdir ~/results
+rsync -av /project/data/* ~/project/
+``` 
+
+run the container:
+
+```
+docker run -it --name hec-ras -v /path-to-project-data/:/project -v /path-to-results-dir/:/results <containerid>
+```
+
+-----
+
 ## Important paths within container:
 
 /hecras : default work directory, this is where everything related to hecras lives. 
@@ -120,7 +144,7 @@ docker build -t hec-ras .
 You can then run the container with `docker run`. Note that if you are pulling the container from a repository directly, you will need to include that information at the end, rather than the build name we used above. 
 
 ```
-docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/data:/results hec-ras-project
+docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/data:/results hec-ras
 ```
 
 The container will run until the provided project runscript has completed. If you want to have your container run without seeing the output, you can replace the `-it` portion of your `docker run` command with `-d`. 

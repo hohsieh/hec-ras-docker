@@ -54,6 +54,6 @@ export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 
 ## run the provided run script
-cd /hecras/project && ./*.sh
+cd /project && ./*.sh
 
 

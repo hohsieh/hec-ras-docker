@@ -11,7 +11,7 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 COPY HEC-RAS_610_Linux.zip /tmp
 
 ## Load the project files with run script.  Make sure you have this directory in the same directory as this dockerfile!
-COPY project/ /hecras/project
+#COPY project/ /hecras/project
 
 ## Load run.sh for container management
 COPY run.sh /hecras
@@ -45,7 +45,8 @@ RUN yum install -y epel-release && \
 #ENV AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
 
 ## Bucket directory
-#ENV S3_MOUNT_DIRECTORY=/results
+#ENV S3_MOUNT_RESULT=/results
+#ENV S3_MOUNT_PROJECT=/project
 #ENV S3_BUCKET_NAME=your-s3-bucket-name
 
 ## S3fs-fuse credential config

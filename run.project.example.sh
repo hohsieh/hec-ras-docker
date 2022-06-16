@@ -30,7 +30,7 @@
 #s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT
 
 
-## REQUIRED: move your project data into the correct location within the container
+## REQUIRED: move your project data into the correct location within the container. We do this because we do not want to interact with any data directly on the shared directory. If the shared directory is read-only, loses contection, or has some other issue, this could cause the program/container to become unstable. 
 rsync -av /project/* /hecras/project/
 
 ## Execute the Unsteady binary. Include the "time" command to receive a printout of the time it took to run start to finish.

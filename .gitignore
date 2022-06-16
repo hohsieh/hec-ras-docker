@@ -1,4 +1,6 @@
+.gitignore
 archive/*
 project/*
 results/*
 *.zip
+

@@ -14,7 +14,11 @@
 #export OMP_STACKSIZE=$memory
 #export OMP_PROC_BIND=TRUE
 
-
+## Execute the Unsteady binary. Include the "time" command to receive a printout of the time it took to run start to finish.
 time RasUnsteady WhiskyChitto.c02 b08
-mv Project.p08.tmp.hdf /results/Project.p08.hdf
+
+## Once the run is complete, copy the needed files to the results directory to be offloaded from the container. 
+rsync -av Project.p08.tmp.hdf /results/Project.p08.hdf
+
+## Not required, but helps to see the end of your script sometimes. 
 echo "Finished"

@@ -29,6 +29,12 @@ run the container:
 docker run -it --name hec-ras -v /your/project/data/dir:/project -v /your/results/dir:/results <containerid>
 ```
 
+If you configured s3 buckets in your runscript, then skip mounting local directories:
+
+```
+docker run -it --name hec-ras <containerid>
+```
+
 -----
 
 ## Important paths within container:

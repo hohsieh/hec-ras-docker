@@ -17,7 +17,7 @@ COPY HEC-RAS_610_Linux.zip /tmp
 COPY run.sh /hecras
 
 ## Load Readme
-COPY README.txt /hecras
+COPY README.md /hecras
 
 WORKDIR /root/
 ## Install packages, uncompress the software, place it in the correct location, cleanup unneeded files. 

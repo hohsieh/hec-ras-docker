@@ -106,4 +106,25 @@ run.project.example.sh:
 
 -----
 
+## Examples
+
+#### Local runs
+
+If you want to build this container on your local system, you simply need to clone this repo, cd into the repo directory, then run the build command:
+
+```
+git clone git@github.com:nullcap/hec-ras-docker.git
+cd ./hec-ras-docker
+docker build -t hec-ras . 
+```
+
+You can then run the container with `docker run`. Note that if you are pulling the container from a repository directly, you will need to include that information at the end, rather than the build name we used above. 
+
+```
+docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/data:/results hec-ras-project
+```
+
+The container will run until the provided project runscript has completed. If you want to have your container run without seeing the output, you can replace the `-it` portion of your `docker run` command with `-d`. 
+
+
 

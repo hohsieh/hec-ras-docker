@@ -1,13 +1,60 @@
-#!/bin/sh
+#! /bin/bash
 
-#delete old p04 hdf results and copy in fixed up one
-rm Muncie.p04.hdf
-rm Muncie.p04.tmp.hdf
-cp wrk_source/Muncie.p04.tmp.hdf .
 
-# remove old results
-rm Muncie.dss
+## If you need to hard set the number of threads, do that here. 
+threads=""
+## If you need to hard set the amount of memory, you can do that here. requires KB value
+memory=""
 
-RasUnsteady Muncie.c04 b04
+if [[ "$threads" != "" ]]
+then
+	echo "Thread override configured, using new value"
 
-mv Muncie.p04.tmp.hdf Muncie.p04.hdf
+else 	
+	## Determine the hardware specs
+	search=("Socket" "Core")
+	threads="1"
+
+	for i in "${search[@]}"
+	do
+
+        	found=$(lscpu | grep -e $i | awk -F ":" '{print $2}' | tr -d '[:blank:]')
+        	threads=$(($threads*$found))
+
+	done
+
+fi
+
+if [[ "$memory" != ""  ]]
+then
+
+	echo "Thread override configured, using new value"
+
+else
+
+	memory=$(cat /proc/meminfo | grep "MemTotal" | awk -F ":" '{print $2}' | tr -d '[:blank:]'| tr -d 'kB')
+
+fi
+
+echo "Total # of CPU cores: "$threads
+echo "Total system memory: "$memory"K"
+
+## Set ENV based on hardware available
+ulimit -s unlimited 
+export MKL_SERIAL=OMP
+export MKL_DOMAIN_PARDISO=$threads
+export MKL_DOMAIN_BLAS=$threads
+export MKL_BLAS=$threads
+export OMP_DYNAMIC=FALSE
+export OMP_NUM_THREADS=$threads
+export OMP_THREAD_LIMIT=$threads
+export OMP_STACKSIZE=$memory
+export OMP_PROC_BIND=TRUE
+
+# Mount the s3 bucket
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_DIRECTORY
+
+## run the provided run script
+cd /hecras/project && ./*.sh
+
+

@@ -1,1 +1,4 @@
-HEC-RAS_610_Linux*
+archive/*
+project/*
+results/*
+*.zip

@@ -3,7 +3,10 @@
 ## Notes:
 
 - there is no muncie directory. provide your own test. 
-- auto-scaling works, mostly. look below to know how to override
+- auto-scaling works, mostly. look below to know how to override.
+- check the run.project.example.sh file for information on what your project runscript should look like.
+- This image is build on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
+
 
 -----
 

@@ -28,7 +28,7 @@ fi
 if [[ "$memory" != ""  ]]
 then
 
-	echo "Thread override configured, using new value"
+	echo "Memory override configured, using new value"
 
 else
 

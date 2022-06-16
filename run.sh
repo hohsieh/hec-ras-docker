@@ -12,8 +12,9 @@ then
 	echo "Thread override configured, using new value"
 
 else 	
-	## Determine the hardware specs
+	## Determine the hardware specs. If you want to include threads in the the math, add it to the array below.
 	search=("Socket" "Core")
+	## Set this to 1, because 1*anything=$anything
 	threads="1"
 
 	for i in "${search[@]}"

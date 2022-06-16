@@ -26,8 +26,8 @@
 #chmod 600 /root/.passwd-s3fs
 
 ## mounting the s3 bucket to above locations
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 
 ## REQUIRED: move your project data into the correct location within the container. We do this because we do not want to interact with any data directly on the shared directory. If the shared directory is read-only, loses contection, or has some other issue, this could cause the program/container to become unstable. 

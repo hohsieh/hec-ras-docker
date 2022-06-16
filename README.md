@@ -96,8 +96,8 @@ example.project.run.sh:
 #chmod 600 /root/.passwd-s3fs
 
 ## mounting the s3 bucket to above locations
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 ...
 

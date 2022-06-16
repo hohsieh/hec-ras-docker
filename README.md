@@ -7,7 +7,7 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 ## Notes:
 
 - there is no muncie directory. provide your own test. 
-- auto-scaling works, mostly. look below to know how to override.
+- auto-scaling for threading and memory works, mostly. look below to know how to override.
 - check the example.project.run.sh file for information on what your project runscript should look like.
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
 
@@ -28,7 +28,7 @@ n.sh script to do the actual execution of the required function.
 
 ## Required Vars:
 
-Pre-set environment vars that are REQUIRED for this container. Do not change these unless you know what you are doing:
+These variables are pre-set within the container environment and are REQUIRED for this specific setup. Do not change these unless you know what you are doing:
 
 ```
 ENV RAS_LIB_PATH=/hecras/libs:/hecras/libs/mkl:/hecras/libs/rhel_8

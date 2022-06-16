@@ -19,10 +19,9 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 
 /hecras/run.sh : This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
 
-/hecras/project : default project directory, this is where the provided files live. Needs to include a ru
-n.sh script to do the actual execution of the required function.
+/hecras/project : Houses the user provided project files which are used in the run. This is also the default executiion directory, any `*.sh` files which live in this directory will be executed. 
 
-/hecras/project/run.sh : This is the user-provided run script. It just needs to execute the binary against the required files, and decide what to do with the results. YOU CAN OVERRIDE THREADING AND MEMORY VARS by setting them in this file, as it is executed last. 
+/hecras/project/run.sh : This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script handles any threading overrides, allows user to configure s3 bucket mounts, and then executes the actual project run. Note that this file can be named anything, as long as it ends with `.sh`. 
 
 -----
 

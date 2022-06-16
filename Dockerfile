@@ -10,7 +10,7 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 ## Load the hecras application. Make sure you have the zip file of HEC-RAS in the same directory as this dockerfile!  
 COPY HEC-RAS_610_Linux.zip /tmp
 
-## Load the project files with run script.  Make sure you have this directory in the same directory as this dockerfile!
+## Load the project files directly, with run script.  Make sure you have this directory in the same directory as this dockerfile!
 #COPY project/ /hecras/project
 
 ## Load run.sh for container management
@@ -52,6 +52,8 @@ RUN yum install -y epel-release && \
 ## S3fs-fuse credential config
 #RUN echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs && \
 #    chmod 600 /root/.passwd-s3fs
+
+
 
 ## Where the shell scripts are. Execution happens here. 
 WORKDIR /hecras/

@@ -1,12 +1,15 @@
 # HEC-RAS docker
 
+A simple docker container that runs HEC-RAS provided by the USACE. You can find more information about HEC-RAS and its applications [on the official HEC-RAS webpage](https://www.hec.usace.army.mil/software/hec-ras/)
+
+-----
+
 ## Notes:
 
 - there is no muncie directory. provide your own test. 
 - auto-scaling works, mostly. look below to know how to override.
 - check the run.project.example.sh file for information on what your project runscript should look like.
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
-
 
 -----
 
@@ -62,17 +65,17 @@ You can also hard set these values in /hecras/run.sh, but the above will likely 
 
 ## Moving Data
 
-To get data in or out of the container, you will need to mount the appropriate directories in your `docker run` command:
+To get data in or out of the container, you will need to mount the appropriate directories in your `docker run` command. By default, this container expects your project data to be available at `/project` and your results to be dumped into `/results` _within the container_ :
 
 ```
 docker run -it --name hec-ras \
--v /home/$(whomi)/project:/project \
--v /home/$(whomai)/results:/results \
+-v /home/$(whomi)/project:/project \ #directory where your project lives : directory within the container
+-v /home/$(whomai)/results:/results \ #directory where you want your results : directory within the container
 $(your-image-id)
 
 ```
 
-If you want to mount s3 buckets for your data, uncomment the relevant lines in `Dockerfile`, `run.sh`, and relevant lines from the `run.project.example.sh` file should be configured in your project `run.sh` script.
+If you want to mount s3 buckets for your data, uncomment the relevant lines in `Dockerfile`, `run.sh`, and relevant lines from the `run.project.example.sh` file should be configured in your project `run.sh` script. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
 
 -----
 

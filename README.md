@@ -148,7 +148,7 @@ docker build -t hec-ras .
 You can then run the container with `docker run`. Note that if you are pulling the container from a repository directly, you will need to include that information at the end, rather than the build name we used above. 
 
 ```
-docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/data:/results hec-ras
+docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/dir:/results hec-ras
 ```
 
 The container will run until the provided project runscript has completed. If you want to have your container run without seeing the output, you can replace the `-it` portion of your `docker run` command with `-d`. 

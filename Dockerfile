@@ -9,7 +9,7 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 
 ## Load the hecras application. Make sure you have the zip file of HEC-RAS in the same directory as this dockerfile!  
 #COPY HEC-RAS_610_Linux.zip /tmp
-RUN wget -O /tmp/HEC-RAS_610_Linux.zip https://www.hec.usace.army.mil/software/hec-ras/downloads/HEC-RAS_610_Linux.zip
+RUN yum install -y wget && wget -O /tmp/HEC-RAS_610_Linux.zip https://www.hec.usace.army.mil/software/hec-ras/downloads/HEC-RAS_610_Linux.zip
 
 ## Load the project files directly, with run script.  Make sure you have this directory in the same directory as this dockerfile!
 #COPY project/ /hecras/project

@@ -14,26 +14,6 @@
 #export OMP_STACKSIZE=$memory
 #export OMP_PROC_BIND=TRUE
 
-## Uncomment and set the below vars if you are moving data to/from an s3 bucket
-#export AWS_ACCESS_KEY=YOURAWSACCESSKEY
-#export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
-#export S3_MOUNT_RESULT=/results
-#export S3_MOUNT_PROJECT=/project
-#export S3_BUCKET_NAME=your-s3-bucket-name
-
-## setting aws access credentials
-#echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
-#chmod 600 /root/.passwd-s3fs
-
-## mounting the s3 bucket to above locations
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
-
-
-## REQUIRED: move your project data into the correct location within the container. We do this because we do not want to interact with any data directly on the shared directory. If the shared directory is read-only, loses contection, or has some other issue, this could cause the program/container to become unstable. 
-rsync -av /project/* /hecras/project/
-cd /hecras/project/
-
 ## Execute the Unsteady binary. Include the "time" command to receive a printout of the time it took to run start to finish.
 time RasUnsteady Project.c02 b08
 

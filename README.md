@@ -104,9 +104,9 @@ $(your-image-id)
 
 ```
 
-If you want to mount s3 buckets for your data, add the relevant lines to your projects `run.sh` script. You can see an example of the configuration you will need in the included `example.project.run.sh` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+If you want to mount s3 buckets for your data, add the relevant lines to the container `run.sh` script. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
 
-example.project.run.sh:
+run.sh:
 
 ```
 ...

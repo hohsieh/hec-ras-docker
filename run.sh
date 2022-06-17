@@ -53,7 +53,27 @@ export OMP_THREAD_LIMIT=$threads
 export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 
+
+## Uncomment and set the below vars if you are moving data to/from an s3 bucket
+#export AWS_ACCESS_KEY=YOURAWSACCESSKEY
+#export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
+#export S3_MOUNT_RESULT=/results
+#export S3_MOUNT_PROJECT=/project
+#export S3_BUCKET_NAME=your-s3-bucket-name
+
+## setting aws access credentials
+#echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
+#chmod 600 /root/.passwd-s3fs
+
+## mounting the s3 bucket to above locations
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
+
+## sync the project data into the appropriate directory
+#rsync -av /project/* /hecras/project
+
+
 ## run the provided run script
-cd /project && ./*.sh
+cd /hecras/project && chmod +x ./*.sh && ./*.sh
 
 

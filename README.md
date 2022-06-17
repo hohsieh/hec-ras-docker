@@ -39,17 +39,19 @@ docker run -it --name hec-ras <containerid>
 
 ## Important paths within container:
 
-/hecras : default work directory, this is where everything related to hecras lives. 
-
-/hecras/core.sh : This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
-
-/hecras/project : Houses the user provided project files which are used in the run. Files are moved from their mounted directory to this location for execution (see /project below).
- 
-/hecras/project/run.sh : This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script handles any threading overrides, allows user to configure s3 bucket mounts, and then executes the actual project run. Note that this file can be named anything, as long as it ends with `.sh`. 
-
-/project : This is the expected mount path where external (to the container) data is loaded from.
-
-/results : This is the expected mount path where internal (to the container) data is offloaded to.
+- /hecras
+  - default work directory, this is where everything related to hecras lives.
+- /hecras/core.sh
+  - This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
+- /hecras/project
+  - Houses the user provided project files which are used in the run. Files are moved from their mounted directory to this location for execution (see /project below).
+- /hecras/project/run.sh
+  - This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script handles any threading overrides, allows user to configure s3 bucket mounts, and then executes the actual project run.
+  - **Note**: this file can be named anything, as long as it ends with `.sh`. 
+- /project
+  - This is the expected mount path where external (to the container) data is loaded from.
+- /results
+  - This is the expected mount path where internal (to the container) data is offloaded to.
 
 -----
 

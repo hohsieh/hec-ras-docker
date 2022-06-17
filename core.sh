@@ -20,7 +20,7 @@ else
 	for i in "${search[@]}"
 	do
 
-        	found=$(lscpu | grep -e $i | awk -F ":" '{print $2}' | tr -d '[:blank:]')
+        	found=$(lscpu | grep -e $i | grep -v "Intel" | awk -F ":" '{print $2}' | tr -d '[:blank:]')
         	threads=$(($threads*$found))
 
 	done
@@ -70,7 +70,7 @@ export OMP_PROC_BIND=TRUE
 #s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 ## sync the project data into the appropriate directory
-#rsync -av /project/* /hecras/project
+rsync -av /project/* /hecras/project
 
 
 ## run the provided run script

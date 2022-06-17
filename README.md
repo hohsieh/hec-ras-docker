@@ -41,7 +41,7 @@ docker run -it --name hec-ras <containerid>
 
 /hecras : default work directory, this is where everything related to hecras lives. 
 
-/hecras/run.sh : This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
+/hecras/core.sh : This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
 
 /hecras/project : Houses the user provided project files which are used in the run. This is also the default executiion directory, any `*.sh` files which live in this directory will be executed. 
 
@@ -88,7 +88,7 @@ export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 ```
 
-You can also hard set these values in /hecras/run.sh, but the above will likely be required in a prod-like environment since /hecras/run.sh wont always be available to the user. 
+You can also hard set these values in /hecras/core.sh, but the above will likely be required in a prod-like environment since /hecras/core.sh wont always be available to the user. 
 
 -----
 
@@ -104,9 +104,9 @@ $(your-image-id)
 
 ```
 
-If you want to mount s3 buckets for your data, add the relevant lines to the container `run.sh` script. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+If you want to mount s3 buckets for your data, add the relevant lines to the `core.sh` script. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
 
-run.sh:
+core.sh:
 
 ```
 ...

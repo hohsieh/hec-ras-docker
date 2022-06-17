@@ -43,8 +43,8 @@ docker run -it --name hec-ras <containerid>
 
 /hecras/core.sh : This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. 
 
-/hecras/project : Houses the user provided project files which are used in the run. This is also the default executiion directory, any `*.sh` files which live in this directory will be executed. 
-
+/hecras/project : Houses the user provided project files which are used in the run. Files are moved from their mounted directory to this location for execution (see /project below).
+ 
 /hecras/project/run.sh : This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script handles any threading overrides, allows user to configure s3 bucket mounts, and then executes the actual project run. Note that this file can be named anything, as long as it ends with `.sh`. 
 
 /project : This is the expected mount path where external (to the container) data is loaded from.
@@ -88,7 +88,7 @@ export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 ```
 
-You can also hard set these values in /hecras/core.sh, but the above will likely be required in a prod-like environment since /hecras/core.sh wont always be available to the user. 
+If you require overriding these values before user execution, you can set their values in the `core.sh` file. 
 
 -----
 
@@ -98,8 +98,8 @@ To get data in or out of the container, you will need to mount the appropriate d
 
 ```
 docker run -it --name hec-ras \
--v /home/$(whomi)/project:/project \ #directory where your project lives : directory within the container
--v /home/$(whomai)/results:/results \ #directory where you want your results : directory within the container
+-v /local/system/path/to/project/data:/project \
+-v /local/system/path/to/results/dir:/results \
 $(your-image-id)
 
 ```

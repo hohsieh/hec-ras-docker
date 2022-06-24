@@ -75,7 +75,7 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 ```
 
 ### Config file
-These variables are defined by the user at runtime within their `project`, and are required to configure the environment to the user's specific needs. See the example `config` file included in this repo for more info. 
+These variables are defined by the user at runtime within their `project`, and are required to configure the environment to the user's specific needs. See the example `project/config` file included in this repo for more info. 
 
 ```
 # Project Name
@@ -108,20 +108,6 @@ export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 ```
 
------
-
-## Moving Data
-
-To get data in or out of the container, you will need to mount the appropriate directories in your `docker run` command. By default, this container expects your project data to be available at `/project` and your results to be dumped into `/results` _within the container_ :
-
-```
-docker run -it --name hec-ras \
--v /local/system/path/to/project/data:/project \
--v /local/system/path/to/results/dir:/results \
-$(your-image-id)
-
-```
-
 If you want to mount s3 buckets for your data, add the relevant lines to the `config` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
 
 config:
@@ -148,6 +134,21 @@ s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 ```
 
+-----
+
+## Moving Data
+
+To get data in or out of the container, you will need to mount the appropriate directories in your `docker run` command. By default, this container expects your project data to be available at `/project` and your results to be dumped into `/results` _within the container_ :
+
+```
+docker run -it --name hec-ras \
+-v /local/system/path/to/project/data:/project \
+-v /local/system/path/to/results/dir:/results \
+$(your-image-id)
+
+```
+
+**_REMEMBER_**: If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched, using the user provided `config` file to mount the buckets to the appropriate directory paths. 
 
 -----
 

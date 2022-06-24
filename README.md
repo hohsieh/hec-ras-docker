@@ -3,12 +3,16 @@
 
 A simple docker container that runs HEC-RAS provided by the USACE. You can find more information about HEC-RAS and its applications [on the official HEC-RAS webpage](https://www.hec.usace.army.mil/software/hec-ras/)
 
+The goal of this project is to simplify the deployment and maintenance of HEC-RAS using docker. This provides flexability and consistency, which is more difficult to achieve using in-house installs with one-off configurations. Containers open the door to computation in the cloud, potential HPC applications, and operational standardization to improve overall workflow in a multi-user enviroment. 
+
 -----
 
 ## Notes:
 
 - there is no muncie directory. provide your own test. 
-- auto-scaling for threading and memory works, mostly. look below to know how to override.
+- all tests were using pubically available projects, configured appropriately by engineers who are active in their careers. Your milage may very, depending on your workflow and requirements. 
+- your main shell script should match exactly what is configured in your `config` file. 
+- auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
 - check the example.project.run.sh file for information on what your project runscript should look like.
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
 
@@ -59,13 +63,24 @@ docker run -it --name hec-ras <containerid>
 
 ## Required Vars:
 
-These variables are pre-set within the container environment and are REQUIRED for this specific setup. Do not change these unless you know what you are doing:
+
+#### Dockerfile
+These variables are pre-set within the container environment and are requrired for this specific setup. Do not change these unless you know what you are doing:
 
 ```
 ENV RAS_LIB_PATH=/hecras/libs:/hecras/libs/mkl:/hecras/libs/rhel_8
 ENV LD_LIBRARY_PATH=$RAS_LIB_PATH:$LD_LIBRARY_PATH
 ENV RAS_EXE_PATH=/hecras/Ras_v61/Release
 ENV PATH=$RAS_EXE_PATH:$PATH
+```
+
+#### Config file
+These variables are defined by the user at runtime within their `project`, and are required to configure the environment to the user's specific needs. See the example `config` file included in this repo for more info. 
+
+```
+# Project Name
+# this is used to define the name of the project bash script to execute. 
+export PROJECT="my_project_name"
 ```
 
 -----

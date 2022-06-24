@@ -10,12 +10,12 @@ export PROJECT="my_project"
 ## -------------------- ##
 ## OPTIONAL 
 
-#---
+# ---
 
 ## Uncomment and set the below vars to override the auto-scaling 
 ## this should be an integer of some kind, represented as a string.
-#NUM_THREADS="8"
+# NUM_THREADS="8"
 ## this defaults to KB, use G to set to GB
-#NUM_MEMORY="16G"
+# NUM_MEMORY="16G"
 
-#---
+# ---

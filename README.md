@@ -100,7 +100,7 @@ export PROJECT="my_project_name"
 Set the below vars in `/hecras/project/config` to override the dynamic threading behavior before execution:
 
 ```
-#---
+# ---
 
 ## Uncomment and set the below vars to override the auto-scaling 
 
@@ -109,22 +109,18 @@ Set the below vars in `/hecras/project/config` to override the dynamic threading
 ## this defaults to KB, use G to set to GB
 #memory="16G"
 
-#---
+# ---
 ```
 
 ### Mounting S3 Buckets for data
 If you want to mount s3 buckets for your data, add the relevant lines to the `core.sh` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. This means you will need to re-build this container for each s3 bucket, unless you are clever and find a way to dynamically mount buckets before user input. 
 
 ```
-#---
-
 ## Uncomment and set the below vars if you are moving data to/from an s3 bucket. 
 ## The assumption is that your project data is housed in the $PROJECT directory of the provided bucket
 #export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
 #export S3_BUCKET_NAME=your-s3-bucket-name
-
-#---
 ```
 
 -----

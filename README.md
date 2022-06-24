@@ -13,7 +13,7 @@ The goal of this project is to simplify the deployment and maintenance of HEC-RA
 - all tests were using pubically available projects, configured appropriately by engineers who are active in their careers. Your milage may very, depending on your workflow and requirements. 
 - your main shell script should match exactly what is configured in your `config` file. 
 - auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
-- check the example.project.run.sh file for information on what your project runscript should look like.
+- check the example.project.run.sh file for information on what your project bash script should look like.
 - If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched, using the user provided `config` file configuration to mount the buckets to the appropriate directory paths. 
   - It is assumed that the project data is housed in the root directory of the s3 bucket. It is advised to create new buckets for projects, sync your data and do your work, then delete them when you are done. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
@@ -28,7 +28,7 @@ build the container:
 docker build .
 ```
 
-load your project files and your runscript into some directory. decide where your results need to live. 
+load your project files, config file, and project bash script into some directory. decide where your results need to live. 
 
 run the container:
 
@@ -36,7 +36,7 @@ run the container:
 docker run -it --name hec-ras -v /your/project/data/dir:/project -v /your/results/dir:/results <containerid>
 ```
 
-If you configured s3 buckets in your runscript, then skip mounting local directories:
+If you configured s3 buckets in your `config` file, then skip mounting local directories:
 
 ```
 docker run -it --name hec-ras <containerid>
@@ -49,13 +49,15 @@ docker run -it --name hec-ras <containerid>
 - /hecras
   - default work directory, this is where everything related to hecras lives.
 - /hecras/core.sh
-  - This file is executed when the container starts. It looks for number of threads and amount of memory available, to then set the threading and memory perameters within the environment. Then, it sources the `config` file and runs the provided user script. 
+  - This file is executed when the container starts. It loads the user provided `config` file, attempts to configure thread and memory limits, attempts to mount s3 buckets, then runs the user provided project bash script 
 - /hecras/project
   - Houses the user provided project files which are used in the run. Files are moved from their mounted directory to this location for execution (see /project below).
 - /hecras/project/run.sh
   - This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script executes the actual RAS binaries and sync's your files into the appropriate results location.
 - /hecras/project/config
   - This is where the user configures the name of the project (which is assumed to be the name of the project bash script), any threading or memory overrides, s3 storage buckets, etc.
+- /hecras/project/results
+  - this is a symlink to the `/results` directory to make it easier for users to reach from within their project bash script.
 - /project
   - This is the expected mount path where external (to the container) data is loaded from.
 - /results
@@ -154,7 +156,7 @@ You can then run the container with `docker run`. Note that if you are pulling t
 docker run -it --name hec-ras-project -v /local/path/to/project/data:/project -v /local/path/to/results/dir:/results hec-ras
 ```
 
-The container will run until the provided project runscript has completed. If you want to have your container run without seeing the output, you can replace the `-it` portion of your `docker run` command with `-d`. 
+The container will run until the provided project bash script has completed. If you want to have your container run without seeing the output, you can replace the `-it` portion of your `docker run` command with `-d`. 
 
 
 

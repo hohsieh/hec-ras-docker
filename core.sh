@@ -45,7 +45,7 @@ then
 	export S3_MOUNT_PROJECT=/project
 	s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
 	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
-
+	
 fi
 
 ## Set ENV based on hardware available
@@ -60,21 +60,14 @@ export OMP_THREAD_LIMIT=$NUM_THREADS
 export OMP_STACKSIZE=$NUM_MEMORY
 export OMP_PROC_BIND=TRUE
 
-## source config file
-source /hecras/project/config
-
 echo "Configured thread count: "$NUM_THREADS
 echo "Configured memory allocation: "$NUM_MEMORY"K"
 
 ## sync the project data into the appropriate directory
-if [[ -v S3_BUCKET_NAME ]]
-then
-	echo "Syncing project data into container env. This may take a bit."
-	rsync -a /project/$PROJECT /hecras/project
-else
-	echo "Syncing project data into container env. This may take a bit."
-	rsync -a /project/ /hecras/project
-fi 
+echo "Syncing project data into container env. This may take a bit."
+rsync -a /project/ /hecras/project
+# symlink the results directory to make it easier for the user to reach within their project bash script.
+ln -s /results /hecras/project/results
 
 ## run the provided run scripts in the order they appear within the directory structure. 
 cd /hecras/project && chmod +x ./$PROJECT.sh && ./$PROJECT.sh

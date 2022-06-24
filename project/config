@@ -5,15 +5,15 @@
 
 # Project Name
 # this is used to define the name of the project bash script to execute. 
-export PROJECT="my_project_name"
+export PROJECT="my_project"
 
 ## -------------------- ##
 ## OPTIONAL 
 
 #---
 
-## Uncomment and set the below vars if you are moving data to/from an s3 bucket. 
-## The assumption is that your project data is housed in your_bucket/$PROJECT as defined above. 
+## Uncomment and set the below vars if you are moving data to/from an s3 bucket. If S3_BUCKET_NAME is defined, the container will attempt to mount the bucket
+## The assumption is that your project data is housed in the root directory of the provided bucket
 #export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
 #export S3_BUCKET_NAME=your-s3-bucket-name

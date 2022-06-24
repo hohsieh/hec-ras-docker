@@ -38,7 +38,7 @@ else
 
 fi
 
-echo "Total # of CPU cores: "$threads
+echo "Total available threads: "$threads
 echo "Total system memory: "$memory"K"
 
 ## Set ENV based on hardware available
@@ -70,10 +70,11 @@ export OMP_PROC_BIND=TRUE
 #s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 ## sync the project data into the appropriate directory
-rsync -av /project/* /hecras/project
+echo "Syncing project data into container env"
+rsync -a /project/* /hecras/project
 
 
-## run the provided run script
+## run the provided run scripts in the order they appear within the directory structure. 
 cd /hecras/project && chmod +x ./*.sh && ./*.sh
 
 

@@ -1,5 +1,11 @@
 #! /bin/bash
 
+## Uncomment and set the below vars if you are moving data to/from an s3 bucket. If S3_BUCKET_NAME is defined, the container will attempt to mount the bucket
+## The assumption is that your project data is housed in the $PROJECT directory of the provided bucket
+#export AWS_ACCESS_KEY=YOURAWSACCESSKEY
+#export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
+#export S3_BUCKET_NAME=your-s3-bucket-name
+
 ## source config file
 source /project/config
 
@@ -67,11 +73,21 @@ echo "Configured memory allocation: "$NUM_MEMORY"K"
 
 ## sync the project data into the appropriate directory
 echo "Syncing project data into container env. This may take a bit."
-rsync -a /project/ /hecras/project
+if [[ -v S3_BUCKET_NAME ]]
+then
+	rsync -a /project/$PROJECT/ /hecras/project
+else
+	rsync -a /project/ /hecras/project
+fi
+
 # symlink the results directory to make it easier for the user to reach within their project bash script.
-ln -s /results /hecras/project/results
+if [[ -v S3_BUCKET_NAME ]]
+then
+	mkdir -p /results/$PROJECT/results
+	ln -s /results/$PROJECT/results /hecras/project/results
+else
+	ln -s /results/ /hecras/project/results
+fi
 
 ## run the provided run scripts in the order they appear within the directory structure. 
 cd /hecras/project && chmod +x ./$PROJECT.sh && ./$PROJECT.sh
-
-

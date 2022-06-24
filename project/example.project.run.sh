@@ -1,7 +1,9 @@
 #!/bin/bash
 ## Prep-work: Remove files, execute other scripts within the project directory structure, create result directories, etc. 
+
+## You will likely want to make sure you have the appropriate path for your results
 current_time = $(date +'%m_%d_%H')
-mkdir results/$PROJECT/results/$current_time/
+mkdir results/$current_time/
 
 ## Execute the Unsteady binary. Include the "time" command to receive a printout of the time it took to run start to finish.
 time RasUnsteady Project.c02 b08

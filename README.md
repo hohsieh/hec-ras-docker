@@ -55,7 +55,7 @@ docker run -it --name hec-ras <containerid>
 - /hecras/project/run.sh
   - This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script executes the actual RAS binaries and sync's your files into the appropriate results location.
 - /hecras/project/config
-  - This is where the user configures the name of the project (which is assumed to be the name of the project bash script), any threading or memory overrides, s3 storage buckets, etc.
+  - This is where the user configures the name of the project (which is assumed to be the name of the project bash script), any threading or memory overrides, overriding linux variables etc.
 - /hecras/project/results
   - this is a symlink to the `/results` directory to make it easier for users to reach from within their project bash script.
 - /project
@@ -92,7 +92,7 @@ export PROJECT="my_project_name"
 ## Optional Vars:
 
 
-#### Limiting/Unlimiting CPU threads and Memory
+### Limiting/Unlimiting CPU threads and Memory
 Set the below vars in `/hecras/project/config` to override the dynamic threading behavior before execution:
 
 ```
@@ -108,13 +108,14 @@ Set the below vars in `/hecras/project/config` to override the dynamic threading
 #---
 ```
 
-If you want to mount s3 buckets for your data, add the relevant lines to the `config` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+### Mounting S3 Buckets for data
+If you want to mount s3 buckets for your data, add the relevant lines to the `core.sh` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. This means you will need to re-build this container for each s3 bucket, unless you are clever and find a way to dynamically mount buckets before user input. 
 
 ```
 #---
 
 ## Uncomment and set the below vars if you are moving data to/from an s3 bucket. 
-## The assumption is that your project data is housed in the root directory of the provided bucket
+## The assumption is that your project data is housed in the $PROJECT directory of the provided bucket
 #export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
 #export S3_BUCKET_NAME=your-s3-bucket-name
@@ -135,6 +136,14 @@ docker run -it --name hec-ras \
 $(your-image-id)
 
 ```
+
+If you are moving data using an s3 bucket, there are some things to consider:
+
+- since the bucket configuration is only available within the core.sh file, you will have to create a new container whenever you would like to use a new bucket. The alternative is to use a single bucket for data, which is the working assumption here. 
+- If you configure buckets, the core script will pull and push data by matching the `$PROJECT` variable with a directory within the bucket. **Make sure these two match exactly!** 
+  - your project data will be pulled from `your_bucket_name/$PROJECT`
+  - your results directory will be symlinked to `your_bucket_name/$PROJECT/results`. If this directory does not exist, it will be created. 
+  - these two changes allow you to interact with the container in a standardized, repeatable fashon. All of these can be changed by editing the `core.sh` file.
 
 -----
 

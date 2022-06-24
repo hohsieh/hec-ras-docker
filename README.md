@@ -7,13 +7,15 @@ The goal of this project is to simplify the deployment and maintenance of HEC-RA
 
 -----
 
-## Notes:
+## TL;DR: Notes
 
 - there is no muncie directory. provide your own test. 
 - all tests were using pubically available projects, configured appropriately by engineers who are active in their careers. Your milage may very, depending on your workflow and requirements. 
 - your main shell script should match exactly what is configured in your `config` file. 
 - auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
 - check the example.project.run.sh file for information on what your project runscript should look like.
+- If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched, using the user provided `config` file configuration to mount the buckets to the appropriate directory paths. 
+  - It is assumed that the project data is housed in the root directory of the s3 bucket. It is advised to create new buckets for projects, sync your data and do your work, then delete them when you are done. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
 
 -----
@@ -101,16 +103,6 @@ Set the below vars in `/hecras/project/config` to override the dynamic threading
 ## this defaults to KB, use G to set to GB
 #memory="16G"
 
-#export MKL_SERIAL=OMP
-#export MKL_DOMAIN_PARDISO=$threads
-#export MKL_DOMAIN_BLAS=$threads
-#export MKL_BLAS=$threads
-#export OMP_DYNAMIC=FALSE
-#export OMP_NUM_THREADS=$threads
-#export OMP_THREAD_LIMIT=$threads
-#export OMP_STACKSIZE=$memory
-#export OMP_PROC_BIND=TRUE
-
 #---
 ```
 
@@ -119,21 +111,11 @@ If you want to mount s3 buckets for your data, add the relevant lines to the `co
 ```
 #---
 
-## Uncomment and set the below vars if you are moving data to/from an s3 bucket
-
+## Uncomment and set the below vars if you are moving data to/from an s3 bucket. 
+## The assumption is that your project data is housed in the root directory of the provided bucket
 #export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
-#export S3_MOUNT_RESULT=/results
-#export S3_MOUNT_PROJECT=/project
 #export S3_BUCKET_NAME=your-s3-bucket-name
-
-## setting aws access credentials
-#echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
-#chmod 600 /root/.passwd-s3fs
-
-## mounting the s3 bucket to above locations
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 #---
 ```
@@ -151,8 +133,6 @@ docker run -it --name hec-ras \
 $(your-image-id)
 
 ```
-
-**_REMEMBER_**: If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched, using the user provided `config` file to mount the buckets to the appropriate directory paths. 
 
 -----
 

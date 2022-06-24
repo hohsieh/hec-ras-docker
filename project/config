@@ -1,4 +1,4 @@
-## This file is sourced by the core.sh file before the project scripts are ran.
+## This file is sourced by the core.sh file before the project scripts are ran. Here is where you can configure s3 storage, thread and memory overrides, etc. 
 
 ## -------------------- ##
 ## REQUIRED  
@@ -33,12 +33,11 @@ export PROJECT="my_project_name"
 
 ## Uncomment and set the below vars to override the auto-scaling 
 
-## this should be an integer of some kind.
+## this should be an integer of some kind, represented as a string.
 #threads="8"
 ## this defaults to KB, use G to set to GB
 #memory="16G"
 
-## values above used to populate the below variables
 #export MKL_SERIAL=OMP
 #export MKL_DOMAIN_PARDISO=$threads
 #export MKL_DOMAIN_BLAS=$threads

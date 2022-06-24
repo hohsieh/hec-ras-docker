@@ -11,7 +11,7 @@ export PROJECT="my_project_name"
 ## -------------------- ##
 ## OPTIONAL 
 
-# ---
+#---
 
 ## Uncomment and set the below vars if you are moving data to/from an s3 bucket
 

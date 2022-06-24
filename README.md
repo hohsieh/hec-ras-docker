@@ -9,6 +9,9 @@ The goal of this project is to simplify the deployment and maintenance of HEC-RA
 
 ## TL;DR: Notes
 
+- Currently untested:
+  - s3 bucket mounting. The process to mount a bucket works outside of docker with no issue. 
+  - AMD hardware. This will likely improve performance, but the threading configuration has only been tested on Intel processors. New peramiters will likely need to be included for AMD systems.
 - there is no muncie directory. provide your own test. 
 - Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
 - all tests were using pubically available projects, configured appropriately by engineers who are active in their careers. Your milage may very, depending on your workflow and requirements. 

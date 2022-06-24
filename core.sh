@@ -41,6 +41,8 @@ else
 
 	done
 
+	echo "Configured thread count: "$NUM_THREADS
+	
 fi
 
 ## If user hasnt overriden the memory var, attempt to use all available memory.
@@ -53,6 +55,7 @@ then
 else
 
 	NUM_MEMORY=$(cat /proc/meminfo | grep "MemTotal" | awk -F ":" '{print $2}' | tr -d '[:blank:]'| tr -d 'kB')
+	echo "Configured memory allocation: "$NUM_MEMORY"K"
 
 fi
 
@@ -67,9 +70,6 @@ export OMP_NUM_THREADS=$NUM_THREADS
 export OMP_THREAD_LIMIT=$NUM_THREADS
 export OMP_STACKSIZE=$NUM_MEMORY
 export OMP_PROC_BIND=TRUE
-
-echo "Configured thread count: "$NUM_THREADS
-echo "Configured memory allocation: "$NUM_MEMORY"K"
 
 ## sync the project data into the appropriate directory
 echo "Syncing project data into container env. This may take a bit."

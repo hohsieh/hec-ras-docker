@@ -1,4 +1,5 @@
 ## RHEL 8 / CENTOS 8 based linux container
+## Rocky chosen as CentOS is currently undergoing changes due to IBM buyout of Red Hat.
 FROM rockylinux:8
 
 ## Required ENV
@@ -9,13 +10,14 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 
 ## Load the hecras application. Make sure you have the zip file of HEC-RAS in the same directory as this dockerfile!  
 COPY HEC-RAS_610_Linux.zip /tmp
-## Optionally, you can download the latest version from the internet
+## Optionally, you can download the latest version from the internet. This may take a while, depending on your connection.
 #RUN yum install -y wget && wget -O /tmp/HEC-RAS_610_Linux.zip https://www.hec.usace.army.mil/software/hec-ras/downloads/HEC-RAS_610_Linux.zip
 
 ## Load the project files directly, with run script.  Make sure you have this directory in the same directory as this dockerfile!
-#COPY project/ /hecras/project
+## This is handy if you need to troubleshoot, or send out a completely isolated container.
+#COPY /home/$(whoami)/project/ /hecras/project
 
-## Create directories
+## Create needed directories
 RUN mkdir /hecras /project /result
 
 ## Load core.sh for container management
@@ -24,6 +26,7 @@ COPY core.sh /hecras
 ## Load Readme
 COPY README.md /hecras
 
+## Move to a good location to do some work.
 WORKDIR /root/
 ## Install packages, uncompress the software, place it in the correct location, cleanup unneeded files. 
 RUN yum install -y epel-release && \

@@ -34,19 +34,24 @@ RUN yum install -y epel-release && \
 	yum install -y unzip rsync bc vim nano automake python39 python39-pip s3fs-fuse && \
 	pip3 install --upgrade pip && pip3 --no-cache-dir install --upgrade awscli
 
-## Uncompress and move HEC-RAS
+## Uncompress and set up HEC-RAS
 RUN	unzip /tmp/HEC-RAS_610_Linux.zip && \
 	unzip HEC-RAS_610_Linux/RAS_Linux_test_setup.zip && \
 	unzip HEC-RAS_610_Linux/remove_HDF5_Results.zip && \
 	rsync -a RAS_Linux_test_setup/* /hecras/ && \
 	rsync -a remove_HDF5_Results.py /hecras/ && \
 	chmod +x /hecras/Ras_v61/Debug/* ; \
-	chmod +x /hecras/Ras_v61/Release/*
+	chmod +x /hecras/Ras_v61/Release/* ; \
+	chmod +x /hecras/Ras_v61/Debug/* ; \
+	chmod +x /hecras/Ras_v61/Release/* 
 
 ## Cleanup
-RUN	rm -rf /tmp/HEC-RAS_610_Linux.zip HEC-RAS_610_Linux/ RAS_Linux_test_setup/ Python_script_for_removing_Results_HDF_datagroup.docx /hecras/Muncie; \
-	chmod +x /hecras/Ras_v61/Debug/* ; \
-	chmod +x /hecras/Ras_v61/Release/* ; \
+RUN	rm -rf \ 
+	/tmp/HEC-RAS_610_Linux.zip HEC-RAS_610_Linux/ \ 
+	RAS_Linux_test_setup/ \ 
+	Python_script_for_removing_Results_HDF_datagroup.docx \ 
+	/hecras/Muncie
+
 
 ## Where the shell scripts are. Execution happens here. 
 WORKDIR /hecras/

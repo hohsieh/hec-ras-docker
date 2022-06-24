@@ -1,12 +1,13 @@
 #! /bin/bash
 
 ## source config file
-source /hecras/project/config
+source /project/config
 
 ## If user hasnt overriden the threads var, attempt to use max number of threads available.
 if [[ -v NUM_THREADS ]]
 then
 	echo "Thread override configured, using new value"
+	echo "Configured thread count: "$NUM_THREADS
 
 else 	
 	## Determine the hardware specs. If you want to exclude threads in the the math, remove it from the array below.
@@ -29,6 +30,7 @@ if [[ -v NUM_MEMORY ]]
 then
 
 	echo "Memory override configured, using new value"
+	echo "Configured memory allocation: "$NUM_MEMORY
 
 else
 

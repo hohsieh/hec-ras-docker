@@ -73,14 +73,15 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 ## Optional Vars:
 
 
-#### Limiting/Unlimiting CPU threads
-Set the below vars at the top of /hecras/project/run.sh to override the dynamic threading behavior before execution:
+#### Limiting/Unlimiting CPU threads and Memory
+Set the below vars in `/hecras/project/config` to override the dynamic threading behavior before execution:
 
 ```
 ## this should be an integer of some kind. 
 threads="8"
 ## this defaults to KB, use G to set to GB
 memory="16G"
+
 export MKL_SERIAL=OMP
 export MKL_DOMAIN_PARDISO=$threads
 export MKL_DOMAIN_BLAS=$threads
@@ -91,8 +92,6 @@ export OMP_THREAD_LIMIT=$threads
 export OMP_STACKSIZE=$memory
 export OMP_PROC_BIND=TRUE
 ```
-
-If you require overriding these values before user execution, you can set their values in the `core.sh` file. 
 
 -----
 
@@ -108,27 +107,27 @@ $(your-image-id)
 
 ```
 
-If you want to mount s3 buckets for your data, add the relevant lines to the `core.sh` script. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+If you want to mount s3 buckets for your data, add the relevant lines to the `config` file. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
 
-core.sh:
+config:
 
 ```
 ...
 
 ## Uncomment and set the below vars if you are moving data to/from an s3 bucket
-#export AWS_ACCESS_KEY=YOURAWSACCESSKEY
-#export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
-#export S3_MOUNT_RESULT=/results
-#export S3_MOUNT_PROJECT=/project
-#export S3_BUCKET_NAME=your-s3-bucket-name
+export AWS_ACCESS_KEY=YOURAWSACCESSKEY
+export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
+export S3_MOUNT_RESULT=/results
+export S3_MOUNT_PROJECT=/project
+export S3_BUCKET_NAME=your-s3-bucket-name
 
 ## setting aws access credentials
-#echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
-#chmod 600 /root/.passwd-s3fs
+echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
+chmod 600 /root/.passwd-s3fs
 
 ## mounting the s3 bucket to above locations
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
-#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
+s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 
 ...
 

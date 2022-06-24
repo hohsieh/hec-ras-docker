@@ -18,30 +18,35 @@ COPY HEC-RAS_610_Linux.zip /tmp
 #COPY /home/$(whoami)/project/ /hecras/project
 
 ## Create needed directories
-RUN mkdir /hecras /project /result
+RUN mkdir /hecras /project /results
 
 ## Load core.sh for container management
 COPY core.sh /hecras
 
-## Load Readme
+## Load Readme to make documentation available within the container for troubleshooting.
 COPY README.md /hecras
 
-## Move to a good location to do some work.
+## Move to a better location to do some work.
 WORKDIR /root/
-## Install packages, uncompress the software, place it in the correct location, cleanup unneeded files. 
+
+## Install packages
 RUN yum install -y epel-release && \
 	yum install -y unzip rsync bc vim nano automake python39 python39-pip s3fs-fuse && \
-	pip3 install --upgrade pip && pip3 --no-cache-dir install --upgrade awscli && \
-	unzip /tmp/HEC-RAS_610_Linux.zip && \
+	pip3 install --upgrade pip && pip3 --no-cache-dir install --upgrade awscli
+
+## Uncompress and move HEC-RAS
+RUN	unzip /tmp/HEC-RAS_610_Linux.zip && \
 	unzip HEC-RAS_610_Linux/RAS_Linux_test_setup.zip && \
 	unzip HEC-RAS_610_Linux/remove_HDF5_Results.zip && \
-	mv RAS_Linux_test_setup/* /hecras/ && \
-	mv remove_HDF5_Results.py /hecras/ && \
-	rm -rf /tmp/HEC-RAS_610_Linux.zip HEC-RAS_610_Linux/ RAS_Linux_test_setup/ Python_script_for_removing_Results_HDF_datagroup.docx  ; \
+	rsync -a RAS_Linux_test_setup/* /hecras/ && \
+	rsync -a remove_HDF5_Results.py /hecras/ && \
+	chmod +x /hecras/Ras_v61/Debug/* ; \
+	chmod +x /hecras/Ras_v61/Release/*
+
+## Cleanup
+RUN	rm -rf /tmp/HEC-RAS_610_Linux.zip HEC-RAS_610_Linux/ RAS_Linux_test_setup/ Python_script_for_removing_Results_HDF_datagroup.docx /hecras/Muncie; \
 	chmod +x /hecras/Ras_v61/Debug/* ; \
 	chmod +x /hecras/Ras_v61/Release/* ; \
-	mkdir /results ; \
-	rm -rf /hecras/Muncie
 
 ## Where the shell scripts are. Execution happens here. 
 WORKDIR /hecras/

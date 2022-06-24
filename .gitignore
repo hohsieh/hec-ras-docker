@@ -1,5 +1,4 @@
 .gitignore
 *.zip
 /project/*
-!/project/example.project.run.sh
 /results/*

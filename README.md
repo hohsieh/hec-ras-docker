@@ -10,6 +10,7 @@ The goal of this project is to simplify the deployment and maintenance of HEC-RA
 ## TL;DR: Notes
 
 - there is no muncie directory. provide your own test. 
+- Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
 - all tests were using pubically available projects, configured appropriately by engineers who are active in their careers. Your milage may very, depending on your workflow and requirements. 
 - your main shell script should match exactly what is configured in your `config` file. 
 - auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
@@ -69,7 +70,7 @@ docker run -it --name hec-ras <containerid>
 
 
 ### Dockerfile
-These variables are pre-set within the container environment and are requrired for this specific setup. Do not change these unless you know what you are doing:
+These variables are pre-set within the Dockerfile and are requrired for this specific setup. Do not change these unless you know what you are doing:
 
 ```
 ENV RAS_LIB_PATH=/hecras/libs:/hecras/libs/mkl:/hecras/libs/rhel_8

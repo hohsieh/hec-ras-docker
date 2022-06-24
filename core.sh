@@ -6,6 +6,18 @@
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
 #export S3_BUCKET_NAME=your-s3-bucket-name
 
+## If the user has configured Amazon s3 bucket storage, mount it
+if [[ -v S3_BUCKET_NAME ]]
+then 
+
+	echo "S3 configured, mounting bucket"
+	export S3_MOUNT_RESULT=/results
+	export S3_MOUNT_PROJECT=/project
+	s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
+	
+fi
+
 ## source config file
 source /project/config
 
@@ -42,18 +54,6 @@ else
 
 	NUM_MEMORY=$(cat /proc/meminfo | grep "MemTotal" | awk -F ":" '{print $2}' | tr -d '[:blank:]'| tr -d 'kB')
 
-fi
-
-## If the user has configured Amazon s3 bucket storage, mount it
-if [[ -v S3_BUCKET_NAME ]]
-then 
-
-	echo "S3 configured, mounting bucket"
-	export S3_MOUNT_RESULT=/results
-	export S3_MOUNT_PROJECT=/project
-	s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
-	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
-	
 fi
 
 ## Set ENV based on hardware available

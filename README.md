@@ -14,7 +14,7 @@ The goal of this project is to simplify the deployment and maintenance of HEC-RA
   - AMD hardware. This will likely improve performance, but the threading configuration has only been tested on Intel processors. New peramiters will likely need to be included for AMD systems.
 - there is no muncie directory. provide your own test. 
 - Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
-- all tests were using pubically available projects, configured appropriately by engineers who are active in their careers. Your milage may very, depending on your workflow and requirements. 
+- all tests were using pubically available projects. Your milage may very, depending on your workflow and requirements. 
 - your main shell script should match exactly what is configured in your `config` file. 
 - auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
 - check the example.project.run.sh file for information on what your project bash script should look like.

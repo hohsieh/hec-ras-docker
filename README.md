@@ -15,7 +15,7 @@ The goal of this project is to simplify the deployment and maintenance of HEC-RA
 - auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
 - check the example.project.run.sh file for information on what your project bash script should look like.
 - If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched, using the user provided `config` file configuration to mount the buckets to the appropriate directory paths. 
-  - It is assumed that the project data is housed in the root directory of the s3 bucket. It is advised to create new buckets for projects, sync your data and do your work, then delete them when you are done. 
+  - It is assumed that the project data is housed in the $PROJECT directory of the s3 bucket. It is advised to use a single bucket to house cloud data, as you will have to build a new container for each new s3 bucket otherwise. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
 
 -----

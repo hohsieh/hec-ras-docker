@@ -37,7 +37,7 @@ else
 	do
 
         	found=$(lscpu | grep -e $i | grep -v "Intel" | awk -F ":" '{print $2}' | tr -d '[:blank:]')
-        	NUM_THREADS=$(($threads*$found))
+        	NUM_THREADS=$(($NUM_THREADS*$found))
 
 	done
 

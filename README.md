@@ -64,7 +64,7 @@ docker run -it --name hec-ras <containerid>
 ## Required Vars:
 
 
-#### Dockerfile
+### Dockerfile
 These variables are pre-set within the container environment and are requrired for this specific setup. Do not change these unless you know what you are doing:
 
 ```
@@ -74,7 +74,7 @@ ENV RAS_EXE_PATH=/hecras/Ras_v61/Release
 ENV PATH=$RAS_EXE_PATH:$PATH
 ```
 
-#### Config file
+### Config file
 These variables are defined by the user at runtime within their `project`, and are required to configure the environment to the user's specific needs. See the example `config` file included in this repo for more info. 
 
 ```

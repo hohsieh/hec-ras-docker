@@ -1,0 +1,52 @@
+## This file is sourced by the core.sh file before the project scripts are ran.
+
+## -------------------- ##
+## REQUIRED  
+
+# Project Name
+# this is used to define the name of the project bash script to execute. 
+export PROJECT="my_project_name"
+
+
+## -------------------- ##
+## OPTIONAL 
+
+# ---
+
+## Uncomment and set the below vars if you are moving data to/from an s3 bucket
+
+#export AWS_ACCESS_KEY=YOURAWSACCESSKEY
+#export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
+#export S3_MOUNT_RESULT=/results
+#export S3_MOUNT_PROJECT=/project
+#export S3_BUCKET_NAME=your-s3-bucket-name
+
+## setting aws access credentials
+#echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs &&
+#chmod 600 /root/.passwd-s3fs
+
+## mounting the s3 bucket to above locations
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+#s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
+
+#---
+
+## Uncomment and set the below vars to override the auto-scaling 
+
+## this should be an integer of some kind.
+#threads="8"
+## this defaults to KB, use G to set to GB
+#memory="16G"
+
+## values above used to populate the below variables
+#export MKL_SERIAL=OMP
+#export MKL_DOMAIN_PARDISO=$threads
+#export MKL_DOMAIN_BLAS=$threads
+#export MKL_BLAS=$threads
+#export OMP_DYNAMIC=FALSE
+#export OMP_NUM_THREADS=$threads
+#export OMP_THREAD_LIMIT=$threads
+#export OMP_STACKSIZE=$memory
+#export OMP_PROC_BIND=TRUE
+
+#---

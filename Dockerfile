@@ -21,7 +21,7 @@ COPY HEC-RAS_610_Linux.zip /tmp
 RUN mkdir /hecras /project /results
 
 ## Load core.sh for container management
-COPY core.py /hecras
+COPY core.sh /hecras
 
 ## Load Readme to make documentation available within the container for troubleshooting.
 COPY README.md /hecras
@@ -57,4 +57,4 @@ RUN	rm -rf \
 WORKDIR /hecras/
 
 ## Actual work being done. 
-CMD ["/usr/bin/python3", "./core.py"]
+CMD ["/bin/bash", "./core.sh"]

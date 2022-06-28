@@ -5,15 +5,13 @@ import configparser
 # read config file
 config_file = "/project/config.ini"
 
-
-
 # ----------------------------------------------------------------------------------------------------------------------
 ## Definations
 
 # confirm file exists
 def check_file(file):
     if not os.path.isfile(file):
-        print('Config File not found!')
+        print('Config file not found!')
         sys.exit(1)
     else:
         return file
@@ -55,7 +53,6 @@ def check_file(file):
 # load config file
 config = configparser.ConfigParser()
 config.read(check_file(config_file))
-source_config(config_file)
 
 # set the thread limit
 try:
@@ -97,14 +94,14 @@ os.environ['OMP_DYNAMIC'] = 'false'
 os.environ['MKL_SERIAL'] = 'OMP'
 
 # rsync /project/ to /hecras/project
-print('Syncing project data to local container environment')
-os.system('rsync -a /project/' + project_name + ' /hecras/project')
+print('Syncing project data to local container environment, this may take a while...')
+os.system('rsync -a /project/ /hecras/project')
 
 # create /results/project/results directory
 os.system('mkdir -p /hecras/project/results')
 
 # symlink /results to /hecras/project/results
-os.system('ln -s /hecras/project/results /results')
+os.system('ln -s /results/ /hecras/project/results')
 
 # print project name, thread_max and memory_max
 print('Project name: ' + project_name)
@@ -116,6 +113,9 @@ print('Configured Memory: ' + str(memory_max))
 
 # change to the project directory
 os.chdir('/hecras/project')
+
+# confirm execute permissions on project bash script
+os.system('chmod +x /hecras/project/' + project_name + '.sh')
 
 # run the project bash script
 os.system('/hecras/project/'+ project_name +'.sh')

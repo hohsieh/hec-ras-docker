@@ -5,7 +5,7 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 
 -----
 
-## TL;DR: Notes
+## Notes
 
 - there is no muncie directory. provide your own test. 
 - Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
@@ -16,6 +16,7 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 - If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched.
   - It is assumed that the project data is housed in the $PROJECT directory of the s3 bucket. It is advised to use a single bucket to house cloud data, as you will have to build a new container for each new s3 bucket otherwise. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
+- 
 
 -----
 
@@ -32,13 +33,18 @@ load your project files, config file, and project bash script into some director
 run the container:
 
 ```
-docker run -it --name hec-ras -v /your/project/data/dir:/project -v /your/results/dir:/results <containerid>
+docker run -it --name hec-ras -v /your/project/data/dir:/project -v /your/results/dir:/results -e PROJECT=YOURPROJECTNAME <containerid>
 ```
 
-If you configured s3 buckets in your `config` file, then skip mounting local directories:
+If you want to use an S3 bucket for data storage, you can configure it in `Dockerfile`, or you can set the vars at runtime:
 
 ```
-docker run -it --name hec-ras <containerid>
+docker run -it --name hec-ras \
+-e PROJECT=YOURPROJECTNAME \
+-e AWS_ACCESS_KEY=YOURAWSACCESSKEY \
+-e AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY \
+-e S3_BUCKET_NAME=YOURS3BUCKETNAME
+<containerid>
 ```
 
 -----
@@ -131,14 +137,6 @@ docker run -it --name hec-ras \
 $(your-image-id)
 
 ```
-
-If you are moving data using an s3 bucket, there are some things to consider:
-
-- since the bucket configuration is only available within the core.sh file, you will have to create a new container whenever you would like to use a new bucket. The alternative is to use a single bucket for data, which is the working assumption here. 
-- If you configure buckets, the core script will pull and push data by matching the `$PROJECT` variable with a directory within the bucket. **Make sure these two match exactly!** 
-  - your project data will be pulled from `your_bucket_name/$PROJECT`
-  - your results directory will be symlinked to `your_bucket_name/$PROJECT/results`. If this directory does not exist, it will be created. 
-  - these two changes allow you to interact with the container in a standardized, repeatable fashon. All of these can be changed by editing the `core.sh` file.
 
 -----
 

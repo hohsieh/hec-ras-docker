@@ -4,7 +4,12 @@
 ## The assumption is that your project data is housed in the $PROJECT directory of the provided bucket
 #export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
-#export S3_BUCKET_NAME=your-s3-bucket-name
+#export S3_BUCKET_NAME=YOURS3BUCKETNAME
+
+## source config file if it exists
+if [ -f /project/config ]; then
+  source /project/config
+fi
 
 ## If the user has configured Amazon s3 bucket storage, mount it
 if [[ -v S3_BUCKET_NAME ]]
@@ -17,9 +22,6 @@ then
 	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 	
 fi
-
-## source config file
-source /project/config
 
 ## If user hasnt overriden the threads var, attempt to use max number of threads available.
 if [[ -v NUM_THREADS ]]
@@ -34,7 +36,7 @@ else
 	NUM_THREADS="1"
 
 	for i in "${search[@]}"
-	do
+	do 
 
         	found=$(lscpu | grep -e $i | grep -v "Intel" | awk -F ":" '{print $2}' | tr -d '[:blank:]')
         	NUM_THREADS=$(($NUM_THREADS*$found))
@@ -73,21 +75,12 @@ export OMP_PROC_BIND=TRUE
 
 ## sync the project data into the appropriate directory
 echo "Syncing project data into container env. This may take a bit."
-if [[ -v S3_BUCKET_NAME ]]
-then
-	rsync -a /project/$PROJECT/ /hecras/project
-else
-	rsync -a /project/ /hecras/project
-fi
+
+rsync -a /project/ /hecras/project
 
 # symlink the results directory to make it easier for the user to reach within their project bash script.
-if [[ -v S3_BUCKET_NAME ]]
-then
-	mkdir -p /results/$PROJECT/results
-	ln -s /results/$PROJECT/results /hecras/project/results
-else
-	ln -s /results/ /hecras/project/results
-fi
+	
+ln -s /results/ /hecras/project/results
 
 ## run the provided run scripts in the order they appear within the directory structure. 
 cd /hecras/project && chmod +x ./$PROJECT.sh && ./$PROJECT.sh

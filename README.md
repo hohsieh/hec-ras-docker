@@ -3,22 +3,17 @@
 
 A simple docker container that runs HEC-RAS provided by the USACE. You can find more information about HEC-RAS and its applications [on the official HEC-RAS webpage](https://www.hec.usace.army.mil/software/hec-ras/)
 
-The goal of this project is to simplify the deployment and maintenance of HEC-RAS using docker. This provides flexability and consistency, which is more difficult to achieve using in-house installs with one-off configurations. Containers open the door to computation in the cloud, potential HPC applications, and operational standardization to improve overall workflow in a multi-user enviroment. 
-
 -----
 
 ## TL;DR: Notes
 
-- Currently untested:
-  - s3 bucket mounting. The process to mount a bucket works outside of docker with no issue. 
-  - AMD hardware. This will likely improve performance, but the threading configuration has only been tested on Intel processors. New peramiters will likely need to be included for AMD systems.
 - there is no muncie directory. provide your own test. 
 - Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
+- included remove_HDF5_Results.py as `/hecras/remove_HDF5_Results.py`
 - all tests were using pubically available projects. Your milage may very, depending on your workflow and requirements. 
-- your main shell script should match exactly what is configured in your `config` file. 
 - auto-scaling for threading and memory works, mostly. hard-set these in your config file if you have issues. 
 - check the example.project.run.sh file for information on what your project bash script should look like.
-- If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched, using the user provided `config` file configuration to mount the buckets to the appropriate directory paths. 
+- If you are using s3 buckets to move data into and out of the container, you will not need to mount the directories at runtime. This configuration will take effect when the container is launched.
   - It is assumed that the project data is housed in the $PROJECT directory of the s3 bucket. It is advised to use a single bucket to house cloud data, as you will have to build a new container for each new s3 bucket otherwise. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
 
@@ -56,10 +51,10 @@ docker run -it --name hec-ras <containerid>
   - This file is executed when the container starts. It loads the user provided `config` file, attempts to configure thread and memory limits, attempts to mount s3 buckets, then runs the user provided project bash script 
 - /hecras/project
   - Houses the user provided project files which are used in the run. Files are moved from their mounted directory to this location for execution (see /project below).
-- /hecras/project/run.sh
+- /hecras/project/$PROJECT.sh
   - This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script executes the actual RAS binaries and sync's your files into the appropriate results location.
 - /hecras/project/config
-  - This is where the user configures the name of the project (which is assumed to be the name of the project bash script), any threading or memory overrides, overriding linux variables etc.
+  - This is where the user configures the name of the project ($PROJECT), any threading or memory overrides, overriding linux variables etc.
 - /hecras/project/results
   - this is a symlink to the `/results` directory to make it easier for users to reach from within their project bash script.
 - /project

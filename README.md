@@ -72,9 +72,9 @@ docker run -it --name hec-ras \
 - /hecras/project/results
   - this is a symlink to the `/results` directory to make it easier for users to reach from within their project bash script.
 - /project
-  - This is the expected mount path where external (to the container) data is loaded from.
+  - This is the expected mount path where external (to the container) data is loaded from. This is the mount location used for S3 buckets.
 - /results
-  - This is the expected mount path where internal (to the container) data is offloaded to.
+  - This is the expected mount path where internal (to the container) data is offloaded to. This is the mount location used for S3 buckets.
 
 -----
 

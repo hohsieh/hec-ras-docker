@@ -1,8 +1,8 @@
 ## RHEL 8 / CENTOS 8 based linux container
-## Rocky chosen as CentOS is currently undergoing changes due to IBM buyout of Red Hat.
+## Rocky chosen as CentOS is currently undergoing changes due to IBM buyout of Red Hat. Feel free to change this to CentOS, as the commands/scripts should all translate correctly.
 FROM rockylinux:8
 
-## Required ENV
+## Required ENV, can be overriden at runtime if needed. 
 ENV RAS_LIB_PATH=/hecras/libs:/hecras/libs/mkl:/hecras/libs/rhel_8
 ENV LD_LIBRARY_PATH=$RAS_LIB_PATH:$LD_LIBRARY_PATH
 ENV RAS_EXE_PATH=/hecras/Ras_v61/Release

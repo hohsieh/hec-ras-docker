@@ -1,4 +1,4 @@
-## This file is sourced by the core.sh file before the project scripts are ran. Here is where you can configure s3 storage, thread and memory overrides, etc. 
+## This file is sourced by the core.sh file before the project scripts are ran. This is an alternative location to define variables in a more consistent manner. This file is not required. 
 
 ## -------------------- ##
 

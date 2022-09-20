@@ -90,7 +90,7 @@ ENV PATH=$RAS_EXE_PATH:$PATH
 ```
 
 ### Config file
-This optional file can be used to override vars and set new vars in a consistent/repeatable manner. See the example `project/config` file included in this repo for more info. 
+This optional file can be used to override vars and set new vars in a consistent/repeatable manner. See the example `project/config` file included in this repo for more info. Below is an example of one configurable item you can set in this file.
 
 ```
 # Project Name

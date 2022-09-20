@@ -1,7 +1,9 @@
 #!/bin/bash
 ## Prep-work: Remove files, execute other scripts within the project directory structure, create result directories, etc. 
+echo "Begin Runscript"
+rm -rf results/$Project/old_results/
 
-## You will likely want to make sure you have the appropriate path for your results
+## You will likely want to make sure you have the appropriate path for your results pre-populated
 current_time = $(date +'%m_%d_%H')
 mkdir -p results/$Project/results/$current_time/
 
@@ -12,4 +14,4 @@ time RasUnsteady Project.c02 b08
 rsync -av Project.p08.tmp.hdf results/$PROJECT/results/$current_time/Project.p08.hdf
 
 ## Not required, but helps to see the end of your script sometimes. 
-echo "Finished"
+echo "Runscript Complete"

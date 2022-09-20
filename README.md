@@ -34,15 +34,15 @@ run the container:
 
 ```
 docker run -it --name hec-ras \
--v /your/project/data/dir:/project \
--v /your/results/dir:/results \
+-v /your/local/project/data/dir:/project \
+-v /your/local/results/dir:/results \
 -e PROJECT="YOURPROJECTNAME" \
 -e NUM_THREADS="8" \
 -e NUM_MEMORY="16g" \
 <containerid>
 ```
 
-If you want to use an S3 bucket for data storage, you can configure it in `Dockerfile`, or you can set the vars at runtime:
+If you want to use an S3 bucket for data storage, you can configure it in `core.sh` when you build the container, or you can set the vars at runtime:
 
 ```
 docker run -it --name hec-ras \

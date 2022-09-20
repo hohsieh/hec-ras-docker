@@ -23,10 +23,10 @@ RUN mkdir /hecras /project /results
 ## Load core.sh for container management
 COPY core.sh /hecras
 
-## Load Readme to make documentation available within the container for troubleshooting.
+## Load Readme to make documentation available within the container for troubleshooting with a bash session.
 COPY README.md /hecras
 
-## Move to a better location to do some work.
+## Move to a better location to do some work, keep working directories clean.
 WORKDIR /root/
 
 ## Install packages

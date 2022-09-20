@@ -99,7 +99,7 @@ export PROJECT=YOURPROJECTNAME
 ```
 
 ### Limiting/Unlimiting CPU threads and Memory
-Set the below vars in `/hecras/project/config`, the `core.sh`file, or in your `docker run` command to override the dynamic threading behavior before execution:
+Set the below vars in `/hecras/project/config`, the `core.sh` file, or in your `docker run` command to override the dynamic threading behavior before execution:
 
 ```
 
@@ -112,7 +112,7 @@ Set the below vars in `/hecras/project/config`, the `core.sh`file, or in your `d
 ```
 
 ### Mounting S3 Buckets for data
-If you want to mount s3 buckets for your data, you will need to either configure the bucket details in the `core.sh` file, or configure them in your `docker run` command. Note that if you decide to mount an s3 bucket, you do not need to mount the local directories as well. 
+If you want to mount s3 buckets for your data, you will need to either configure the bucket details in the `core.sh` file, or configure them in your `docker run` command. Note that if you decide to mount an s3 bucket, you do not need to mount local system directories as well. 
 
 ```
 ## Uncomment and set the below vars if you are moving data to/from an s3 bucket. 

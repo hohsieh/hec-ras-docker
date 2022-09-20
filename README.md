@@ -99,7 +99,7 @@ export PROJECT=YOURPROJECTNAME
 ```
 
 ### Limiting/Unlimiting CPU threads and Memory
-Set the below vars in `/hecras/project/config` or in your `docker run` command to override the dynamic threading behavior before execution:
+Set the below vars in `/hecras/project/config`, the `core.sh`file, or in your `docker run` command to override the dynamic threading behavior before execution:
 
 ```
 
@@ -134,6 +134,8 @@ docker run -it --name hec-ras \
 $(your-image-id)
 
 ```
+
+*_Remember!_*: You will be responsible for moving the result data to the `/results` directory at the end of your runscript.
 
 -----
 

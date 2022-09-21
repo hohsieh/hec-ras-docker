@@ -1,6 +1,7 @@
 #! /bin/bash
 
 ## Uncomment and set the below vars if you are moving data to/from an s3 bucket. If S3_BUCKET_NAME is defined, the container will attempt to mount the bucket
+## NOTE: you can override any of the configured vars in your 'docker run' command
 #export AWS_ACCESS_KEY=YOURAWSACCESSKEY
 #export AWS_SECRET_ACCESS_KEY=YOURAWSSECRETACCESSKEY
 #export S3_BUCKET_NAME=YOURS3BUCKETNAME

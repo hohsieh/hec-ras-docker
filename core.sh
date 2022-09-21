@@ -18,6 +18,11 @@ then
 	echo "S3 configured, mounting bucket"
 	export S3_MOUNT_RESULT=/results
 	export S3_MOUNT_PROJECT=/project
+
+	# configure s3fs password file
+	echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs
+	chmod 600 /root/.passwd-s3fs
+
 	## mount the bucket
 	s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
 	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
@@ -36,6 +41,7 @@ else
 
 	## Determine the hardware specs. If you want to exclude threads in the the math, remove it from the array below.
 	search=("Socket" "Core" "Thread")
+
 	## Set this to 1, because 1*anything=$anything
 	NUM_THREADS="1"
 
@@ -66,6 +72,7 @@ else
 
 	## do the search
 	NUM_MEMORY=$(cat /proc/meminfo | grep "MemTotal" | awk -F ":" '{print $2}' | tr -d '[:blank:]'| tr -d 'kB')
+	
 	## The above search always prints the memory in "K"
 	echo "Configured memory allocation: "$NUM_MEMORY"K"
 

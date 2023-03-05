@@ -20,6 +20,8 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 
 ## TL;DR: Quickstart
 
+[Download HEC-RAS for linux](https://www.hec.usace.army.mil/software/hec-ras/download.aspx), and place the zip file in the same directory you are building in.
+
 build the container:
 
 ```

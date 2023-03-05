@@ -7,8 +7,8 @@
 #export S3_BUCKET_NAME=YOURS3BUCKETNAME
 
 ## source config file if it exists
-if [ -f /project/config ]; then
-  source /project/config
+if [ -f /project/$PROJECT.config ]; then
+  source /project/$PROJECT.config
 fi
 
 ## If the user has configured Amazon s3 bucket storage, mount it

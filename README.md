@@ -65,7 +65,7 @@ docker run -it --name hec-ras \
   - Houses the user provided project files which are used in the run. Files are moved from their mounted directory to this location for execution (see /project below) so that there is no reliance on remotely mounted directories.
 - /hecras/project/$PROJECT.sh
   - This is the user-provided run script, which should look similar to the provided `example.project.run.sh`. This script executes the actual RAS binaries and sync's your files into the appropriate results location.
-- /hecras/project/config
+- /hecras/project/$PROJECT.config
   - _Optional_. This is where the user configures the name of the project ($PROJECT), any threading or memory overrides, overriding linux variables etc. You can also set your env vars in your `docker run` command, rather than using this file. 
 - /hecras/project/results
   - this is a symlink to the `/results` directory to make it easier for users to reach from within their project bash script.
@@ -88,6 +88,8 @@ ENV LD_LIBRARY_PATH=$RAS_LIB_PATH:$LD_LIBRARY_PATH
 ENV RAS_EXE_PATH=/hecras/Ras_v61/Release
 ENV PATH=$RAS_EXE_PATH:$PATH
 ```
+
+## Optional Vars:
 
 ### Config file
 This optional file can be used to override vars and set new vars in a consistent/repeatable manner. See the example `project/config` file included in this repo for more info. Below is an example of one configurable item you can set in this file.

@@ -2,6 +2,6 @@
 *.zip
 /project/*
 !/project/example.project.run.sh
-!/project/exampleconfig*
+!/project/example.config
 /results/*
 /tmp

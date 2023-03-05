@@ -40,17 +40,45 @@ then
 
 else 	
 
-	## Determine the hardware specs. If you want to exclude threads in the the math, remove it from the array below.
-	search=("Socket" "Core" "Thread")
+	## Determine the hardware Vendor. Currently only supports Intel and AMD. 
+	model_search=("Intel" "AMD")
 
-	## Set this to 1, because 1*anything=$anything
+	model=$(lscpu | grep -i vendor | awk -F ":" '{print $2}' | tr -d '[:blank:]')
+
+	if [[ "$model" == "GenuineIntel" ]]
+	then 
+
+		## inform the user
+		echo "This system has an Intel processor, and should perform at optimal speeds."
+		model="Intel" 
+
+	elif [[ "$model" == "AuthenticAMD" ]]
+	then 
+
+		## inform the user
+		echo "This system has an AMD processor, and may not perform optimally. Please check the current status of MKL and OMP support on AMD hardware."
+		model="AMD"
+
+	else
+
+		## inform the user, then exit
+		echo "This sysetem is running on unsupported hardware. This container only works on Intel and AMD systems. Closing application."
+		exit 1
+
+	fi
+	
+	## Determine the hardware specs. If you want to exclude threads in the the math, remove it from the array below.
+	info_search=("Socket" "Core" "Thread")
+
+	## Set this to 1, because 1*anything=$anything. This also becomes the min value in the event of an error. 
 	NUM_THREADS="1"
 
 	## Searching for search terms listed above
-	for i in "${search[@]}"
+
+	for i in "${info_search[@]}"
 	do 
 			## do the search
-        	found=$(lscpu | grep -e $i | grep -v "Intel" | awk -F ":" '{print $2}' | tr -d '[:blank:]')
+        	found=$(lscpu | grep -e $i | grep -v $model | awk -F ":" '{print $2}' | tr -d '[:blank:]')
         	## multiply the output together for each new result
 			NUM_THREADS=$(($NUM_THREADS*$found))
 

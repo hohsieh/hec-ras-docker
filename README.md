@@ -11,7 +11,7 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 - Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
 - included remove_HDF5_Results.py as `/hecras/remove_HDF5_Results.py`
 - all tests were using pubically available projects. Your milage may very, depending on your workflow and requirements. 
-- auto-scaling for threading and memory works, mostly. If you have issues with the auto-scaling, you can override the memory and thread values in the $PROJECT.config file, or by setting those values at runtime. See below for more info. 
+- auto-scaling for threading and memory works, mostly. If you have issues with the auto-scaling, you can override the memory and thread values in the config file, or by setting those values at runtime. See below for more info. 
 - check the example.project.run.sh file for information on what your project bash script should look like.
 - If you are using s3 buckets to move data into and out of the container, you will need to make sure you provide the credentials in `core.sh` or at runtime. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.
@@ -91,10 +91,13 @@ ENV RAS_EXE_PATH=/hecras/Ras_v61/Release
 ENV PATH=$RAS_EXE_PATH:$PATH
 ```
 
+### $PORJECT
+This sets the name of your project. It also determines which `*.sh` file is loaded at runtime. 
+
 ## Optional Vars:
 
 ### Config file
-This optional file can be used to override vars and set new vars in a consistent/repeatable manner. See the example `project/config` file included in this repo for more info. Below is an example of one configurable item you can set in this file.
+This optional file can be used to override vars and set new vars in a consistent/repeatable manner. See the example `project/example_config` file included in this repo for more info. Below is an example of one configurable item you can set in this file.
 
 ```
 # Project Name

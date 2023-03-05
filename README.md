@@ -91,7 +91,7 @@ ENV RAS_EXE_PATH=/hecras/Ras_v61/Release
 ENV PATH=$RAS_EXE_PATH:$PATH
 ```
 
-### $PORJECT
+### $PROJECT
 This sets the name of your project. It also determines which `*.sh` file is loaded at runtime. 
 
 ## Optional Vars:

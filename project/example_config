@@ -1,0 +1,17 @@
+## This file is sourced by the core.sh file before the project scripts are ran. This is an alternative location to define variables in a more consistent manner. This file is not required. 
+
+## -------------------- ##
+
+# Project Name
+# this is used to define the name of the project bash script to execute. If you have configured s3 bucket storage, this also defines the name of the results subdirectory and project directory
+export PROJECT=YOURPROJECTNAME
+
+## -------------------- ##
+
+## Uncomment and set the below vars to override the auto-scaling 
+## this should be an integer of some kind, represented as a string.
+# NUM_THREADS="8"
+## this defaults to KB, use G to set to GB
+# NUM_MEMORY="16G"
+
+# ---

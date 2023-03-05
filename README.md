@@ -11,7 +11,7 @@ A simple docker container that runs HEC-RAS provided by the USACE. You can find 
 - Release and Debug binaries are available, the default path points to the Release directory. You can execute the debug binaries directly if you have that need. They can be found in the `/hecras/Ras_v61/Debug/*` directory.
 - included remove_HDF5_Results.py as `/hecras/remove_HDF5_Results.py`
 - all tests were using pubically available projects. Your milage may very, depending on your workflow and requirements. 
-- auto-scaling for threading and memory works, mostly. hard-set these in your config file or at runtime if you have issues. 
+- auto-scaling for threading and memory works, mostly. If you have issues with the auto-scaling, you can override the memory and thread values in the $PROJECT.config file, or by setting those values at runtime. See below for more info. 
 - check the example.project.run.sh file for information on what your project bash script should look like.
 - If you are using s3 buckets to move data into and out of the container, you will need to make sure you provide the credentials in `core.sh` or at runtime. 
 - This image is built on rocky linux, see [their docker hub page](https://hub.docker.com/_/rockylinux) for more information.

@@ -11,24 +11,24 @@ if [ -f /project/config ]; then
   source /project/config
 fi
 
-## If the user has configured Amazon s3 bucket storage, mount it
-if [[ -v S3_BUCKET_NAME ]]
-then 
+# ## If the user has configured Amazon s3 bucket storage, mount it
+# if [[ -v S3_BUCKET_NAME ]]
+# then 
 
-	## set vars for mounting
-	echo "S3 configured, mounting bucket"
-	export S3_MOUNT_RESULT=/results
-	export S3_MOUNT_PROJECT=/project
+# 	## set vars for mounting
+# 	echo "S3 configured, mounting bucket"
+# 	export S3_MOUNT_RESULT=/results
+# 	export S3_MOUNT_PROJECT=/project
 
-	# configure s3fs password file
-	echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs
-	chmod 600 /root/.passwd-s3fs
+# 	# configure s3fs password file
+# 	echo $AWS_ACCESS_KEY:$AWS_SECRET_ACCESS_KEY > /root/.passwd-s3fs
+# 	chmod 600 /root/.passwd-s3fs
 
-	## mount the bucket
-	s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
-	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
+# 	## mount the bucket
+# 	s3fs $S3_BUCKET_NAME $S3_MOUNT_PROJECT -o passwd_file=/root/.passwd-s3fs
+# 	s3fs $S3_BUCKET_NAME $S3_MOUNT_RESULT -o passwd_file=/root/.passwd-s3fs
 	
-fi
+# fi
 
 ## If user hasnt overriden t he threads var, attempt to use max number of threads available.
 if [[ -v NUM_THREADS ]]
